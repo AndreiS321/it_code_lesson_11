@@ -1,0 +1,39 @@
+1) Получение всех заказов покупателя
+Customer.objects.get(name="Виктор").order_set.all()
+Вывод: <QuerySet [<Order: Customer: Виктор, Created: 2023-05-04 13:11:11.394765+00:00,Finished: False>, <Order: Customer: Виктор, Created: 2023-05-04 13:11:15.411488+00:00,Finished: False>]>
+
+2) Получение всех покупателей с хотя бы одним завершённым заказом
+Customer.objects.filter(order__finished=True)
+Вывод: <QuerySet [<Customer: Дмитрий>]>
+
+3) Получение всех заказов Виктора, в списке товаров которых есть мыло
+Order.objects.filter(customer__name__iexact="Виктор").filter(items__name__contains="Мыло")
+Вывод: <QuerySet [<Order: Customer: Виктор, Created: 2023-05-04 13:11:11.394765+00:00,Finished: False>, <Order: Customer: Виктор, Created: 2023-05-04 13:11:15.411488+00:00,Finished: False>]>
+
+4) Получение всех завершённых заказов Дмитрия
+Order.objects.filter(Q(customer__name__iexact="Дмитрий") & Q(finished=True)).first()
+Вывод: <Order: Customer: Дмитрий, Created: 2023-05-04 13:13:10.229488+00:00,Finished: True>
+
+5) Получение количества завершённых заказов
+Order.objects.filter(finished=True).count()
+Вывод: 1
+
+6) Получение средней стоимости товара, у которых в валюте указаны рубли
+Item.objects.filter(currency__iexact="rub").aggregate(Avg("price"))
+Вывод: {'price__avg': 93.26666666666667}
+
+7) Получение максимальной стоимости товара, у которых в валюте указаны евро
+Item.objects.filter(currency__iexact="eur").aggregate(Max("price"))
+Вывод: {'price__max': 20.99}
+
+8) Получение количества товаров с группировкой по валютам
+Item.objects.values("currency").annotate(Count("currency"))
+Вывод: <QuerySet [{'currency': 'EUR', 'currency__count': 3}, {'currency': 'RUB', 'currency__count': 3}]>
+
+9) Получение количества заказов с группировкой по завершённости
+Order.objects.values("finished").annotate(Count("finished"))
+<QuerySet [{'finished': False, 'finished__count': 6}, {'finished': True, 'finished__count': 1}]>
+
+10) Получение количества заказов каждого покупателя
+Customer.objects.values("name").annotate(Count("order"))
+Вывод: <QuerySet [{'name': 'Александр', 'order__count': 3}, {'name': 'Виктор', 'order__count': 2}, {'name': 'Дмитрий', 'order__count': 2}]>
