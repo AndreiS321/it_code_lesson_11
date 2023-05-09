@@ -1,0 +1,14 @@
+{% extends "table_base.html" %}
+{% block table_body %}
+<tbody>
+{% for order in object_list %}
+<tr>
+    <th>{{ forloop.counter }}</th>
+    <td>{{ order.order.customer.name }}</td>
+    <td>{{order.items}}</td>
+    <td>{{ order.order.creation_date }}</td>
+    <td>{% if order.order.finished %}Завершён{% else %}В процессе{% endif %}</td>
+</tr>
+{% endfor %}
+</tbody>
+{% endblock table_body %}

@@ -1,0 +1,14 @@
+{% extends "table_base.html" %}
+{% block table_body %}
+<tbody>
+{% for item in object_list %}
+<tr>
+    <th>{{ forloop.counter }}</th>
+    <td>{{ item.name }}</td>
+    <td>{{ item.price }}</td>
+    <td>{{ item.currency }}</td>
+    <td>{{ item.seller.name }}</td>
+</tr>
+{% endfor %}
+</tbody>
+{% endblock table_body %}

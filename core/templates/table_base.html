@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+    <div class="text-center display-4 mb-4">{{ table_title }}</div>
+    <table class="table">
+        <thead class="table-primary">
+        <tr>
+            {% for header in table_headers %}
+            <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        {% block table_body %}
+        {% endblock table_body %}
+    </table>
+</main>
+{% endblock content %}
