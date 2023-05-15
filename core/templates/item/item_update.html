@@ -2,3 +2,7 @@
 {% block action %}
 {% url 'items_update' item.pk %}
 {% endblock action %}
+{% block form_content %}
+<button type="submit" class="btn btn-primary">Обновить</button>
+<a href="{% url 'items_class' %}" class="btn btn-secondary">Отмена</a>
+{% endblock form_content %}
