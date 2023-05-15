@@ -1,0 +1,10 @@
+{% extends "form_base.html" %}
+{% block action %}
+{% url 'orders_del' order.pk %}
+{% endblock action %}
+{% block form_content %}
+<p>Удалить {{ object.is_finished|yesno:"завершённый, незавершённый" }} заказ с pk {{ object.pk }} покупателя {{ object.customer }}?</p>
+<button type="submit" class="btn btn-danger">Удалить</button>
+<a href="{% url 'sellers_class' %}" class="btn btn-primary">Отмена</a>
+{% endblock form_content %}
+

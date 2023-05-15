@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
+from core.forms import CustomerForm, SellerForm, ItemForm, OrderForm
 from core.models import Customer, Item, Seller, Order
 
 
@@ -15,7 +17,7 @@ def customers(request):
     customers = Customer.objects.all()
     return render(
         request,
-        template_name="customers_list.html",
+        template_name="customer/customers_list.html",
         context={
             "object_list": customers,
             "table_title": "Покупатели",
@@ -28,7 +30,7 @@ def sellers(request):
     sellers = Seller.objects.all()
     return render(
         request,
-        template_name="sellers_list.html",
+        template_name="seller/sellers_list.html",
         context={
             "object_list": sellers,
             "table_title": "Продавцы",
@@ -41,7 +43,7 @@ def items(request):
     items = Item.objects.all()
     return render(
         request,
-        template_name="items_list.html",
+        template_name="item/items_list.html",
         context={
             "object_list": items,
             "table_title": "Товары",
@@ -57,7 +59,7 @@ def orders(request):
     )
     return render(
         request,
-        template_name="orders_list.html",
+        template_name="order/orders_list.html",
         context={
             "object_list": tuple(
                 dict(order=order, items=items)
@@ -71,7 +73,7 @@ def orders(request):
 
 class CustomerList(ListView):
     model = Customer
-    template_name = "customers_list.html"
+    template_name = "customer/customers_list.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,7 +84,7 @@ class CustomerList(ListView):
 
 class SellerList(ListView):
     model = Seller
-    template_name = "sellers_list.html"
+    template_name = "seller/sellers_list.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -93,7 +95,7 @@ class SellerList(ListView):
 
 class ItemList(ListView):
     model = Item
-    template_name = "items_list.html"
+    template_name = "item/items_list.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -104,7 +106,7 @@ class ItemList(ListView):
 
 class OrderList(ListView):
     model = Order
-    template_name = "orders_list.html"
+    template_name = "order/orders_list.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -125,3 +127,83 @@ class OrderList(ListView):
             "Статус",
         )
         return context
+
+
+class CustomerCreate(CreateView):
+    model = Customer
+    template_name = "customer/customer_add.html"
+    form_class = CustomerForm
+    success_url = reverse_lazy("customers_class")
+
+
+class CustomerUpdate(UpdateView):
+    model = Customer
+    template_name = "customer/customer_update.html"
+    form_class = CustomerForm
+    success_url = reverse_lazy("customers_class")
+
+
+class CustomerDelete(DeleteView):
+    model = Customer
+    template_name = "customer/customer_delete.html"
+    success_url = reverse_lazy("customers_class")
+
+
+class SellerCreate(CreateView):
+    model = Seller
+    template_name = "seller/seller_add.html"
+    form_class = SellerForm
+    success_url = reverse_lazy("sellers_class")
+
+
+class SellerUpdate(UpdateView):
+    model = Seller
+    template_name = "seller/seller_update.html"
+    form_class = SellerForm
+    success_url = reverse_lazy("sellers_class")
+
+
+class SellerDelete(DeleteView):
+    model = Seller
+    template_name = "seller/seller_delete.html"
+    success_url = reverse_lazy("sellers_class")
+
+
+class ItemCreate(CreateView):
+    model = Item
+    template_name = "item/item_add.html"
+    form_class = ItemForm
+    success_url = reverse_lazy("items_class")
+
+
+class ItemUpdate(UpdateView):
+    model = Item
+    template_name = "item/item_update.html"
+    form_class = ItemForm
+    success_url = reverse_lazy("items_class")
+
+
+class ItemDelete(DeleteView):
+    model = Item
+    template_name = "item/item_delete.html"
+    success_url = reverse_lazy("items_class")
+
+
+class OrderCreate(CreateView):
+    model = Order
+    template_name = "order/order_add.html"
+    form_class = OrderForm
+    success_url = reverse_lazy("orders_class")
+
+
+class OrderUpdate(UpdateView):
+    model = Order
+    template_name = "order/order_update.html"
+    form_class = OrderForm
+    success_url = reverse_lazy("orders_class")
+
+
+class OrderDelete(DeleteView):
+    model = Order
+    template_name = "order/order_delete.html"
+    success_url = reverse_lazy("orders_class")

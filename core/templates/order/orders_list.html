@@ -7,7 +7,9 @@
     <td>{{ order.order.customer.name }}</td>
     <td>{{order.items}}</td>
     <td>{{ order.order.creation_date }}</td>
-    <td>{% if order.order.finished %}Завершён{% else %}В процессе{% endif %}</td>
+    <td>{{ order.order.finished|yesno:"Завершён, В процессе"}}</td>
+    <td><a href="{% url 'orders_update' order.order.pk %}" class="btn btn-primary">Обновить</a></td>
+    <td><a href="{% url 'orders_del' order.order.pk %}" class="btn btn-danger">Удалить</a></td>
 </tr>
 {% endfor %}
 </tbody>
