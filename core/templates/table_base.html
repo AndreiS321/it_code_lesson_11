@@ -2,7 +2,13 @@
 {% block content %}
 <main>
     <div class="text-center display-4 mb-4">{{ table_title }}</div>
-    <table class="table text-center">
+    {% block table_search %}
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Поиск</button>
+    </form>
+    {% endblock table_search %}
+    <table class="table text-center mt-2">
         <thead class="table-primary">
         <tr>
             {% for header in table_headers %}
