@@ -11,7 +11,7 @@
     <header class="bg-dark-subtle mb-5">
         <nav class="navbar navbar-expand-lg  bg-dark-subtle">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'index' %}">Главная</a>
+                <a class="navbar-brand" href="{% url 'core:index' %}">Главная</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -25,11 +25,9 @@
                                 Покупатели
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'customers_func' %}">Function based view</a>
+                                <li><a class="dropdown-item" href="{% url 'core:customers_list' %}">Список покупателей</a>
                                 </li>
-                                <li><a class="dropdown-item" href="{% url 'customers_class' %}">Class based view</a>
-                                </li>
-                                <li><a class="dropdown-item" href="{% url 'customers_create' %}">Добавить покупателя</a>
+                                <li><a class="dropdown-item" href="{% url 'core:customers_create' %}">Добавить покупателя</a>
                                 </li>
                             </ul>
                         </li>
@@ -39,10 +37,8 @@
                                 Продавцы
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'sellers_func' %}">Function based view</a>
-                                </li>
-                                <li><a class="dropdown-item" href="{% url 'sellers_class' %}">Class based view</a></li>
-                                <li><a class="dropdown-item" href="{% url 'sellers_create' %}">Добавить продавца</a>
+                                <li><a class="dropdown-item" href="{% url 'core:sellers_list' %}">Список продавцов</a></li>
+                                <li><a class="dropdown-item" href="{% url 'core:sellers_create' %}">Добавить продавца</a>
                                 </li>
                             </ul>
                         </li>
@@ -52,9 +48,8 @@
                                 Товары
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'items_func' %}">Function based view</a></li>
-                                <li><a class="dropdown-item" href="{% url 'items_class' %}">Class based view</a></li>
-                                <li><a class="dropdown-item" href="{% url 'items_create' %}">Добавить товар</a></li>
+                                <li><a class="dropdown-item" href="{% url 'core:items_list' %}">Список товаров</a></li>
+                                <li><a class="dropdown-item" href="{% url 'core:items_create' %}">Добавить товар</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -63,9 +58,8 @@
                                 Заказы
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'orders_func' %}">Function based view</a></li>
-                                <li><a class="dropdown-item" href="{% url 'orders_class' %}">Class based view</a></li>
-                                <li><a class="dropdown-item" href="{% url 'orders_create' %}">Добавить заказ</a></li>
+                                <li><a class="dropdown-item" href="{% url 'core:orders_list' %}">Список заказов</a></li>
+                                <li><a class="dropdown-item" href="{% url 'core:orders_create' %}">Добавить заказ</a></li>
                             </ul>
                         </li>
                     </ul>

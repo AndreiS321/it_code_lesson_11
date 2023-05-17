@@ -2,9 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from core.forms import CustomerForm, SellerForm, ItemForm, OrderForm, CustomerSearch, SellerSearch, ItemSearch, \
-    OrderSearch
-from core.models import Customer, Item, Seller, Order
+from core import forms, models
 
 
 # Create your views here.
@@ -14,66 +12,8 @@ def index(request):
     return render(request, template_name="index.html")
 
 
-def customers(request):
-    customers = Customer.objects.all()
-    return render(
-        request,
-        template_name="customer/customers_list.html",
-        context={
-            "object_list": customers,
-            "table_title": "Покупатели",
-            "table_headers": ("№", "Имя"),
-        },
-    )
-
-
-def sellers(request):
-    sellers = Seller.objects.all()
-    return render(
-        request,
-        template_name="seller/sellers_list.html",
-        context={
-            "object_list": sellers,
-            "table_title": "Продавцы",
-            "table_headers": ("№", "Имя"),
-        },
-    )
-
-
-def items(request):
-    items = Item.objects.all()
-    return render(
-        request,
-        template_name="item/items_list.html",
-        context={
-            "object_list": items,
-            "table_title": "Товары",
-            "table_headers": ("№", "Название", "Стоимость", "Валюта", "Продавец"),
-        },
-    )
-
-
-def orders(request):
-    orders = Order.objects.all()
-    all_items = tuple(
-        ", ".join(item.name for item in order.items.all()) for order in orders
-    )
-    return render(
-        request,
-        template_name="order/orders_list.html",
-        context={
-            "object_list": tuple(
-                dict(order=order, items=items)
-                for order, items in zip(orders, all_items)
-            ),
-            "table_title": "Заказы",
-            "table_headers": ("№", "Покупатель", "Товары", "Дата создания", "Статус"),
-        },
-    )
-
-
 class CustomerList(ListView):
-    model = Customer
+    model = models.Customer
     template_name = "customer/customers_list.html"
 
     def get_queryset(self):
@@ -84,14 +24,14 @@ class CustomerList(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = CustomerSearch(self.request.GET or None)
+        context["form"] = forms.CustomerSearch(self.request.GET or None)
         context["table_title"] = "Покупатели"
         context["table_headers"] = ("№", "Имя")
         return context
 
 
 class SellerList(ListView):
-    model = Seller
+    model = models.Seller
     template_name = "seller/sellers_list.html"
 
     def get_queryset(self):
@@ -102,14 +42,14 @@ class SellerList(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = SellerSearch(self.request.GET or None)
+        context["form"] = forms.SellerSearch(self.request.GET or None)
         context["table_title"] = "Продавцы"
         context["table_headers"] = ("№", "Имя")
         return context
 
 
 class ItemList(ListView):
-    model = Item
+    model = models.Item
     template_name = "item/items_list.html"
 
     def get_queryset(self):
@@ -131,14 +71,14 @@ class ItemList(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = ItemSearch(self.request.GET or None)
+        context["form"] = forms.ItemSearch(self.request.GET or None)
         context["table_title"] = "Товары"
         context["table_headers"] = ("№", "Название", "Стоимость", "Валюта", "Продавец")
         return context
 
 
 class OrderList(ListView):
-    model = Order
+    model = models.Order
     template_name = "order/orders_list.html"
 
     def get_queryset(self):
@@ -152,13 +92,13 @@ class OrderList(ListView):
         }
         filters = {key: value for key, value in filters.items() if value}
         queryset = self.model.objects.all()
-        print(filters)
         if filters:
             return queryset.filter(**filters)
         return queryset
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = OrderSearch(self.request.GET or None)
+        context["form"] = forms.OrderSearch(self.request.GET or None)
         all_items = tuple(
             ", ".join(item.name for item in order.items.all())
             for order in context["object_list"]
@@ -179,80 +119,80 @@ class OrderList(ListView):
 
 
 class CustomerCreate(CreateView):
-    model = Customer
+    model = models.Customer
     template_name = "customer/customer_add.html"
-    form_class = CustomerForm
-    success_url = reverse_lazy("customers_class")
+    form_class = forms.CustomerForm
+    success_url = reverse_lazy("core:customers_list")
 
 
 class CustomerUpdate(UpdateView):
-    model = Customer
+    model = models.Customer
     template_name = "customer/customer_update.html"
-    form_class = CustomerForm
-    success_url = reverse_lazy("customers_class")
+    form_class = forms.CustomerForm
+    success_url = reverse_lazy("core:customers_list")
 
 
 class CustomerDelete(DeleteView):
-    model = Customer
+    model = models.Customer
     template_name = "customer/customer_delete.html"
-    success_url = reverse_lazy("customers_class")
+    success_url = reverse_lazy("core:customers_list")
 
 
 class SellerCreate(CreateView):
-    model = Seller
+    model = models.Seller
     template_name = "seller/seller_add.html"
-    form_class = SellerForm
-    success_url = reverse_lazy("sellers_class")
+    form_class = forms.SellerForm
+    success_url = reverse_lazy("core:sellers_list")
 
 
 class SellerUpdate(UpdateView):
-    model = Seller
+    model = models.Seller
     template_name = "seller/seller_update.html"
-    form_class = SellerForm
-    success_url = reverse_lazy("sellers_class")
+    form_class = forms.SellerForm
+    success_url = reverse_lazy("core:sellers_list")
 
 
 class SellerDelete(DeleteView):
-    model = Seller
+    model = models.Seller
     template_name = "seller/seller_delete.html"
-    success_url = reverse_lazy("sellers_class")
+    success_url = reverse_lazy("core:sellers_list")
 
 
 class ItemCreate(CreateView):
-    model = Item
+    model = models.Item
     template_name = "item/item_add.html"
-    form_class = ItemForm
-    success_url = reverse_lazy("items_class")
+    form_class = forms.ItemForm
+    success_url = reverse_lazy("core:items_list")
 
 
 class ItemUpdate(UpdateView):
-    model = Item
+    model = models.Item
     template_name = "item/item_update.html"
-    form_class = ItemForm
-    success_url = reverse_lazy("items_class")
+    form_class = forms.ItemForm
+    success_url = reverse_lazy("core:items_list")
 
 
 class ItemDelete(DeleteView):
-    model = Item
+    model = models.Item
     template_name = "item/item_delete.html"
-    success_url = reverse_lazy("items_class")
+    success_url = reverse_lazy("core:items_list")
 
 
 class OrderCreate(CreateView):
-    model = Order
+    model = models.Order
     template_name = "order/order_add.html"
-    form_class = OrderForm
-    success_url = reverse_lazy("orders_class")
+    form_class = forms.OrderForm
+    success_url = reverse_lazy("core:orders_list")
 
 
 class OrderUpdate(UpdateView):
-    model = Order
+    model = models.Order
     template_name = "order/order_update.html"
-    form_class = OrderForm
-    success_url = reverse_lazy("orders_class")
+    form_class = forms.OrderForm
+    success_url = reverse_lazy("core:orders_list")
 
 
 class OrderDelete(DeleteView):
-    model = Order
+    model = models.Order
     template_name = "order/order_delete.html"
-    success_url = reverse_lazy("orders_class")
+    success_url = reverse_lazy("core:orders_list")

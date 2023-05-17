@@ -5,8 +5,8 @@
 <tr>
     <th>{{ forloop.counter }}</th>
     <td>{{ customer.name }}</td>
-    <td><a href="{% url 'customers_update' customer.pk %}" class="btn btn-primary">Обновить</a></td>
-    <td><a href="{% url 'customers_del' customer.pk %}" class="btn btn-danger">Удалить</a></td>
+    <td><a href="{% url 'core:customers_update' customer.pk %}" class="btn btn-primary">Обновить</a></td>
+    <td><a href="{% url 'core:customers_del' customer.pk %}" class="btn btn-danger">Удалить</a></td>
 </tr>
 {% endfor %}
 </tbody>

@@ -1,10 +1,10 @@
 {% extends "form_base.html" %}
 {% block action %}
-{% url 'items_del' item.pk %}
+{% url 'core:items_del' item.pk %}
 {% endblock action %}
 {% block form_content %}
 <p>Удалить товар {{ object.name }} продавца {{ object.seller }}</p>
 <button type="submit" class="btn btn-danger">Удалить</button>
-<a href="{% url 'sellers_class' %}" class="btn btn-primary">Отмена</a>
+<a href="{% url 'core:sellers_list' %}" class="btn btn-primary">Отмена</a>
 {% endblock form_content %}
 

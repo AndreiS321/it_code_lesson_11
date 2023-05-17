@@ -8,8 +8,8 @@
     <td>{{ item.price }}</td>
     <td>{{ item.currency }}</td>
     <td>{{ item.seller.name }}</td>
-    <td><a href="{% url 'items_update' item.pk %}" class="btn btn-primary">Обновить</a></td>
-    <td><a href="{% url 'items_del' item.pk %}" class="btn btn-danger">Удалить</a></td>
+    <td><a href="{% url 'core:items_update' item.pk %}" class="btn btn-primary">Обновить</a></td>
+    <td><a href="{% url 'core:items_del' item.pk %}" class="btn btn-danger">Удалить</a></td>
 </tr>
 {% endfor %}
 </tbody>
