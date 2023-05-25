@@ -3,27 +3,27 @@ from faker import Factory
 
 from core import models
 
-factory_ru = Factory.create("ru-Ru")
+factory_ru = Factory.create("ru-Ru",providers=["faker.providers.misc", "faker.providers.person", "faker.providers.lorem"])
 
 
 class CustomerFactory(factory.django.DjangoModelFactory):
-    name = factory_ru.first_name()
+    name = factory.Sequence(lambda x: factory_ru.first_name())
 
     class Meta:
         model = models.Customer
 
 
 class SellerFactory(factory.django.DjangoModelFactory):
-    name = factory_ru.first_name()
+    name = factory.Sequence(lambda x: factory_ru.first_name())
 
     class Meta:
         model = models.Seller
 
 
 class ItemFactory(factory.django.DjangoModelFactory):
-    name = factory.Sequence(lambda x: f"Item{x}")
-    price = factory_ru.random_int(min=1)
-    currency = factory_ru.random_element(elements=tuple(i for i, _ in models.Item.currency_choices))
+    name = factory.Sequence(lambda x: factory_ru.word())
+    price = factory.Sequence(lambda x: factory_ru.random_int(min=1))
+    currency = factory.Sequence(lambda x: factory_ru.random_element(elements=tuple(i for i, _ in models.Item.currency_choices)))
     seller = factory.SubFactory(SellerFactory)
 
     class Meta:
@@ -32,7 +32,7 @@ class ItemFactory(factory.django.DjangoModelFactory):
 
 class OrderFactory(factory.django.DjangoModelFactory):
     customer = factory.SubFactory(CustomerFactory)
-    finished = False
+    finished = factory.Sequence(lambda x: factory_ru.boolean())
 
     class Meta:
         model = models.Order
