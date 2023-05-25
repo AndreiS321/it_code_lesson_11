@@ -1,0 +1,6 @@
+.idea
+.gitignore
+.git
+venv/
+Dockerfile
+queries.txt
