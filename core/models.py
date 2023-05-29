@@ -31,7 +31,8 @@ class Item(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name} for {self.price} {self.currency}, Seller: {self.seller}"
+        return f"{self.name} for {self.price} " \
+               f"{self.currency}, Seller: {self.seller}"
 
 
 class Order(models.Model):
@@ -41,4 +42,5 @@ class Order(models.Model):
     finished = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Customer: {self.customer}, Created: {self.creation_date},Finished: {self.finished}"
+        return f"Customer: {self.customer}, Created: {self.creation_date}," \
+               f" Finished: {self.finished}"

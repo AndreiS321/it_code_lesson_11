@@ -73,7 +73,9 @@ class ItemList(ListView):
         context = super().get_context_data(**kwargs)
         context["form"] = forms.ItemSearch(self.request.GET or None)
         context["table_title"] = "Товары"
-        context["table_headers"] = ("№", "Название", "Стоимость", "Валюта", "Продавец")
+        context["table_headers"] = ("№", "Название",
+                                    "Стоимость", "Валюта",
+                                    "Продавец")
         return context
 
 

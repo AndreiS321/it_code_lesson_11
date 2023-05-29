@@ -3,7 +3,14 @@ from faker import Factory
 
 from core import models
 
-factory_ru = Factory.create("ru-Ru",providers=["faker.providers.misc", "faker.providers.person", "faker.providers.lorem"])
+factory_ru = Factory.create(
+    "ru-Ru",
+    providers=[
+        "faker.providers.misc",
+        "faker.providers.person",
+        "faker.providers.lorem",
+    ],
+)
 
 
 class CustomerFactory(factory.django.DjangoModelFactory):
@@ -23,7 +30,11 @@ class SellerFactory(factory.django.DjangoModelFactory):
 class ItemFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda x: factory_ru.word())
     price = factory.Sequence(lambda x: factory_ru.random_int(min=1))
-    currency = factory.Sequence(lambda x: factory_ru.random_element(elements=tuple(i for i, _ in models.Item.currency_choices)))
+    currency = factory.Sequence(
+        lambda x: factory_ru.random_element(
+            elements=tuple(i for i, _ in models.Item.currency_choices)
+        )
+    )
     seller = factory.SubFactory(SellerFactory)
 
     class Meta:
